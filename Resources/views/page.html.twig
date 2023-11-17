@@ -1,0 +1,54 @@
+{% extends '@CheclouFlatFileCMS/layout.html.twig' %}
+
+{% use '@CheclouFlatFileCMS/_partials/page_data.html.twig' %}
+
+{% block checlou_flat_file_cms_meta %}
+{% include '@CheclouFlatFileCMS/_partials/page_head_meta.html.twig' with { page: page } %}
+{% endblock %}
+
+{# Breadcrumb  #}
+{% block checlou_flat_file_cms_layout_breadcrumb %}
+    {% include '@CheclouFlatFileCMS/_partials/breadcrumb.html.twig' with { page: page } %}
+{% endblock %}
+
+{% block checlou_flat_file_cms_layout_content %}
+    {# Titre #}
+    {% block checlou_flat_file_cms_page_title %}
+    <h1 class="text-left">{{ block('checlou_flat_file_cms_data_page_title') }}</h1>
+    {% endblock %}
+
+    {# Contenu de la page #}
+    {% block checlou_flat_file_cms_page_content %}
+    {% include '@CheclouFlatFileCMS/_partials/page_content.html.twig' with { page: page } %}
+    {% endblock %}
+
+    {# if directory page : list childs #}
+    {% block checlou_flat_file_cms_page_directory_pages %}
+    {% if page.isDirectoryPage() and childs|length>0 %}
+        <section class="container mb-4">
+            {% if pagination['index'] > 1 %}
+                <p>{{ 'page.directory.posts_from'|trans({ date: (childs|first).publishedAt|format_date('medium', 'none') }, 'CheclouFlatFileCMSBundle') }}</p>
+            {% endif %}
+            {% include '@CheclouFlatFileCMS/_partials/pages.html.twig' with {
+                'total_pages': pagination['total_pages'],
+                'current_page': page,
+                'pagination_index': pagination['index'],
+                'pages': childs
+            } %}
+        </section>
+    {% endif %}
+    {% endblock %}
+
+    {# if page : list related pages #}
+    {% block checlou_flat_file_cms_page_related_pages %}
+    {% if (not page.isDirectoryPage()) and related_pages|length>0 %}
+        <section class="container mb-4">
+            <h2>{{ 'page.related_pages.title'|trans({}, 'CheclouFlatFileCMSBundle') }}</h2>
+            {% include '@CheclouFlatFileCMS/_partials/pages.html.twig' with {
+                'current_page': page,
+                'pages': related_pages
+            } %}
+        </section>
+    {% endif %}
+    {% endblock %}
+{% endblock %}

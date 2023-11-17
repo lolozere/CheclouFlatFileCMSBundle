@@ -1,0 +1,32 @@
+checlou_flat_file_cms_page_index:
+  path: /
+  defaults: { _controller: 'Checlou\FlatFileCMSBundle\Controller\CmsController::page', slug: "/" }
+  requirements:
+    slug: '[a-z\-0-9/\.]+'
+
+checlou_flat_file_cms_page_pagination_index:
+  path: "/page-{page_index}.html"
+  defaults: { _controller: 'Checlou\FlatFileCMSBundle\Controller\CmsController::page', slug: "/" }
+  requirements:
+    page_index: '[0-9]*'
+
+checlou_flat_file_cms_pagination:
+  path: "{slug}/page-{page_index}.html"
+  defaults: { _controller: 'Checlou\FlatFileCMSBundle\Controller\CmsController::page' }
+  requirements:
+    page_index: '[0-9]*'
+    slug: '[a-z\-0-9/\.]*'
+
+checlou_flat_file_cms_page_preview:
+  path: "/{slug}/_preview"
+  defaults: { _controller: 'Checlou\FlatFileCMSBundle\Controller\CmsController::preview' }
+  requirements:
+    slug: '[a-z\-0-9/\.]+'
+
+checlou_flat_file_cms_page:
+  path: "/{slug}"
+  defaults: { _controller: 'Checlou\FlatFileCMSBundle\Controller\CmsController::page' }
+  requirements:
+    slug: '[a-z\-0-9/\.]+'
+
+

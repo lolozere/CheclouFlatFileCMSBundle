@@ -1,0 +1,33 @@
+{% use '@CheclouFlatFileCMS/_partials/page_data.html.twig' %}
+
+{%- block checlou_flat_file_cms_page_json_data -%}
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ checlou_flat_file_cms_page_path(post, false) }}"
+    },
+    "headline": "{{ block('checlou_flat_file_cms_data_page_title')|e }}",
+    {% if checlou_flat_file_cms_page_has_feature_image(post) %}
+    "image": [
+        "{{ absolute_url(checlou_flat_file_cms_page_feature_image_url(post)) }}"
+    ],
+    {% endif %}
+    "datePublished": "{{ post.publishedAt|date('c') }}",
+    "dateModified": "{{ post.publishedAt|date('c') }}",
+    "author": {
+        "@type": "Person",
+        "name": "{{ block('checlou_flat_file_cms_data_page_author')|e('html_attr') }}"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "{{ 'cms.organization'|trans({}, 'CheclouFlatFileCMSBundle') }}",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ absolute_url(asset('cms.organization_logo_uri'|trans({}, 'CheclouFlatFileCMSBundle'))) }}"
+        }
+    },
+    "description": "{{ block('checlou_flat_file_cms_data_page_meta_description')|e }}"
+}
+{% endblock %}

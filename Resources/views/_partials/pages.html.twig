@@ -1,0 +1,45 @@
+{% block checlou_flat_file_cms_pages %}
+<div vocab="http://schema.org/" typeof="ItemList">
+    {% if pagination_index is defined and total_pages is defined %}
+        {% include '@CheclouFlatFileCMS/_partials/pagination.html.twig' with { current_page: page, pagination_index: pagination_index, total_pages: total_pages } %}
+    {% endif %}
+    {% set currentPath = path(app.request.attributes.get('_route'),
+        app.request.attributes.get('_route_params')) %}
+    <link property="url" href="{% if current_page is defined %}{{ absolute_url(current_page.slug|default(app.request.pathInfo) ) }}{% else %}{{ absolute_url(currentPath) }}{% endif %}" />
+    {% block checlou_flat_file_cms_page_items %}
+    <div class="row row-cols-1 row-cols-lg-2" id="cms-blog-posts">
+        {% for i, page in pages %}
+        <div class="cms-post-item col mb-4">
+            <div class="card h-100" property="itemListElement" typeof="ListItem">
+                {% if checlou_flat_file_cms_page_has_feature_image(page) %}
+                <a href="{{ checlou_flat_file_cms_page_path(page) }}">
+                    <img src="{{ checlou_flat_file_cms_page_feature_image_url(page) }}" alt="{{ page.title|e }}" class="card-img-top" />
+                </a>
+                {% endif %}
+                <div class="card-body" property="position" content="{{ i+1 }}">
+                    <h5 class="card-title">
+                        <a href="{{ checlou_flat_file_cms_page_path(page) }}" property="url">{{ page.title }}</a>
+                    </h5>
+                    <p class="card-text">{{ checlou_flat_file_cms_page_summary(page) }}</p>
+                    <p class="card-text">
+                        <small class="text-muted">{{ 'page.published_at'|trans({date: page.publishedAt|format_date('medium', 'none')}, 'CheclouFlatFileCMSBundle') }}</small>
+                    </p>
+                    {# Si appartient à un sous dossier d'un blog alors on indique la category, sauf si c'est la même que la page courante #}
+                    {% if page.parents|length >= 2 and ((not (current_page is defined)) or page.parent.slug != current_page.slug) %}
+                    <p class="card-text">
+                        <a href="{{ checlou_flat_file_cms_page_path(page.parents|last) }}" class="cms-post-category-link">
+                            <span class="badge badge-info cms-post-category-name">{{ (page.parents|last).title }}</span>
+                        </a>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endblock %}
+    {% if pagination_index is defined and total_pages is defined %}
+        {% include '@CheclouFlatFileCMS/_partials/pagination.html.twig' with { current_page: page, pagination_index: pagination_index, total_pages: total_pages } %}
+    {% endif %}
+</div>
+{% endblock %}

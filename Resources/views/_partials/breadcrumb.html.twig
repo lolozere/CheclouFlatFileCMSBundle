@@ -1,0 +1,53 @@
+{% use '@CheclouFlatFileCMS/_partials/page_data.html.twig' %}
+
+{% block checlou_flat_file_cms_breadcrumb %}
+<nav aria-label="Chemin d'accès à la page">
+    <ol class="breadcrumb p-0" itemscope itemtype="https://schema.org/BreadcrumbList">
+        {% set pos = checlou_flat_file_cms_page_breadcrumb_start() %}
+        {% set current_page=page %}{# to use block data for ancestor with the page varname  #}
+        {% block checlou_flat_file_cms_breadcrumb_ancestors %}
+        {% for i, page in current_page.parents %}
+            <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a itemprop="item" itemscope itemtype="https://schema.org/WebPage" itemid="{{ checlou_flat_file_cms_page_path(page, true) }}" href="{{ checlou_flat_file_cms_page_path(page) }}">
+                    {% if i==0 %}<span class="fas fa-home"></span>{% endif %}
+                    <span class="breadcrumb-item-label" itemprop="name">{{ block('checlou_flat_file_cms_data_page_title')|trans({}, 'CheclouFlatFileCMSBundle') }}</span>
+                </a>
+                <meta itemprop="position" content="{{ checlou_flat_file_cms_page_breadcrumb_add_position(1) }}">
+            </li>
+        {% endfor %}
+        {% endblock %}
+
+        {% block checlou_flat_file_cms_breadcrumb_current_page %}
+        {% set page=current_page %}{# to use block data of a page #}
+        <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            {% set currentPath = path(app.request.attributes.get('_route'),
+                app.request.attributes.get('_route_params')) %}
+            {% set currentPath = path(app.request.attributes.get('_route'),
+                app.request.attributes.get('_route_params')) %}
+            {% if page.isDirectoryPage() and childs|length>0 and pagination['index'] > 1 %}
+                {% set currentPath = checlou_flat_file_cms_page_path(page) %}
+            {% endif %}
+            <a itemprop="item" itemscope itemtype="https://schema.org/WebPage" itemid="{{ absolute_url(currentPath) }}" href="{{ absolute_url(currentPath) }}">
+                <span class="breadcrumb-item-label" itemprop="name">{{ block('checlou_flat_file_cms_data_page_title')|trans({}, 'CheclouFlatFileCMSBundle') }}</span>
+            </a>
+            <meta itemprop="position" content="{{ checlou_flat_file_cms_page_breadcrumb_add_position(1) }}">
+        </li>
+        {% endblock %}
+
+        {% block checlou_flat_file_cms_breadcrumb_pagination %}
+        {% if page.isDirectoryPage() and childs|length>0 and pagination['index'] > 1 %}
+            <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                {% set currentPath = path(app.request.attributes.get('_route'),
+                    app.request.attributes.get('_route_params')) %}
+                <a itemprop="item" itemscope itemtype="https://schema.org/WebPage" itemid="{{ absolute_url(currentPath) }}" href="{{ absolute_url(currentPath) }}">
+                    <span class="breadcrumb-item-label" itemprop="name">
+                        {{ 'cms.breadcrumb.pagination_title'|trans({ pagination_index: pagination['index']}, 'CheclouFlatFileCMSBundle') }}
+                    </span>
+                </a>
+                <meta itemprop="position" content="{{ checlou_flat_file_cms_page_breadcrumb_add_position(1) }}">
+            </li>
+        {% endif %}
+        {% endblock %}
+    </ol>
+</nav>
+{% endblock %}

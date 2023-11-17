@@ -1,0 +1,3 @@
+cms:
+  resource: '@CheclouFlatFileCMSBundle/Resources/config/routes.yaml'
+  prefix:   /

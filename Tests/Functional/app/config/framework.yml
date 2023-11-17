@@ -1,0 +1,17 @@
+framework:
+  http_method_override: false
+  secret: test
+  router: { resource: "%kernel.project_dir%/%kernel.test_case%/routing.yml", utf8: true }
+  assets: ~
+  test: true
+  default_locale: fr
+  session:
+    storage_factory_id: session.storage.factory.mock_file
+  profiler: { only_exceptions: false, collect: false }
+
+web_profiler:
+  toolbar: false
+  intercept_redirects: false
+
+services:
+  logger: { class: Psr\Log\NullLogger }

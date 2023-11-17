@@ -1,0 +1,34 @@
+{%- block checlou_flat_file_cms_data_page_title -%}
+{{ page.title|trans({}, 'CheclouFlatFileCMSBundle') }}
+{%- endblock -%}
+
+{%- block checlou_flat_file_cms_data_page_meta_title -%}
+{%- if pagination['total_pages'] is defined and pagination['index'] is defined and pagination['index']>1 and childs|length > 0 -%}
+{{ 'page.paginated.meta.title'|trans( {'title': block('checlou_flat_file_cms_data_page_title'), 'date': (childs|first).publishedAt|format_date('medium', 'none') }, 'CheclouFlatFileCMSBundle') }}
+{%- else -%}
+{{ block('checlou_flat_file_cms_data_page_title') }}
+{%- endif -%}
+{%- endblock -%}
+
+
+{%- block checlou_flat_file_cms_data_page_meta_description -%}
+{{ page.headers.meta.description|default(block('checlou_flat_file_cms_data_page_summary')) }}
+{%- endblock -%}
+
+{%- block checlou_flat_file_cms_data_page_meta_keywords -%}
+{{ page.headers.meta.keywords|default("") }}
+{%- endblock -%}
+
+{%- block checlou_flat_file_cms_data_page_summary -%}
+{{ checlou_flat_file_cms_page_summary(page) }}
+{%- endblock -%}
+
+{%- block checlou_flat_file_cms_data_page_content -%}
+{{ checlou_flat_file_cms_page_content(page) }}
+{%- endblock -%}
+
+{%- block checlou_flat_file_cms_data_page_feature_image_url -%}
+{{ absolute_url(asset(checlou_flat_file_cms_page_feature_image_url(page))) }}
+{%- endblock -%}
+
+{% block checlou_flat_file_cms_data_page_author %}John Doe{% endblock %}

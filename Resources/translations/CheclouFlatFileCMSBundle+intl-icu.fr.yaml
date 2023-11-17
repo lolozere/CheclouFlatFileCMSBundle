@@ -1,0 +1,20 @@
+cms:
+  organization: "Your Organization"
+  organization_logo_uri: "https://www.your-organization.com/logo.png"
+  root:
+    title: "Actualités"
+  breadcrumb:
+    pagination_title: "Page {pagination_index}"
+
+page:
+  published_at: "Publié le {date}"
+  created_at: "Créé le {date}"
+  updated_at: "Mis à jour le {date}"
+  published_at_in: "Publié le {date} dans [{category}]({link})"
+  paginated:
+    meta:
+      title: "{title} au {date}"
+  directory:
+    posts_from: "Les articles en date du {date}"
+  related_pages:
+    title: "Vous aimerez aussi lire ces articles"

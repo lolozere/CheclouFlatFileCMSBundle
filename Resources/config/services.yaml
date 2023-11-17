@@ -1,0 +1,37 @@
+parameters:
+    checlou_flat_file_cms.pages_class: 'Checlou\FlatFileCMSBundle\CMS\Pages'
+
+services:
+
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    public: false
+
+  Checlou\FlatFileCMSBundle\Controller\:
+    resource: '../../Controller'
+    tags: [ 'controller.service_arguments' ]
+
+  Checlou\FlatFileCMSBundle\Markdown\:
+    resource: '../../Markdown'
+    exclude:
+      - '../../Markdown/*Trait.php'
+
+  Checlou\FlatFileCMSBundle\Routing\:
+    resource: '../../Routing'
+
+  Checlou\FlatFileCMSBundle\Twig\:
+    resource: '../../Twig/*'
+    tags: [ 'twig.extension' ]
+
+  Checlou\FlatFileCMSBundle\CMS\Pages:
+    arguments:
+      $content_path: '%checlou_flat_file_cms.content_path%'
+
+  checlou_flat_file_cms.pages:
+    public: true
+    alias: Checlou\FlatFileCMSBundle\CMS\Pages
+
+  Twig\Extra\Intl\IntlExtension:
+    tags: [ 'twig.extension' ]

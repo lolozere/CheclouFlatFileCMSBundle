@@ -1,0 +1,6 @@
+imports:
+  - { resource: framework.yml }
+  - { resource: twig.yml }
+
+checlou_flat_file_cms:
+  content_path: '%kernel.project_dir%/%kernel.test_case%/cms'

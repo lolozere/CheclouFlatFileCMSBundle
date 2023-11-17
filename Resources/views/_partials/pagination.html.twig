@@ -1,0 +1,12 @@
+<div class="pagination mb-3 d-flex justify-content-between">
+    <div>
+        {% if pagination_index > 1 %}
+            <a href="{{ checlou_flat_file_cms_page_pagination_path(current_page, pagination_index-1) }}" class="btn btn-primary">Articles plus récents</a>
+        {% endif %}
+    </div>
+    <div class="pull-right">
+        {% if pagination_index < total_pages %}
+            <a href="{{ checlou_flat_file_cms_page_pagination_path(current_page, pagination_index+1) }}"  class="btn btn-primary">Articles plus anciens</a>
+        {% endif %}
+    </div>
+</div>

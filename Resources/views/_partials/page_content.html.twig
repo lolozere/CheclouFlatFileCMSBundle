@@ -1,0 +1,40 @@
+{% use '@CheclouFlatFileCMS/_partials/page_data.html.twig' %}
+
+<article class="mt-4">
+    {% if page.headers.type == 'post' %}
+        <script type="application/ld+json">{% include '@CheclouFlatFileCMS/_partials/article-data.json.twig' with {'post': page} %}</script>
+    {% endif %}
+    <div class="container">
+        <div id="cms-page-content">
+            {% if not (page.summary is empty) %}
+                <section class="card cms-page-summary bg-light shadow-sm p-3 mb-3 rounded">
+                    {{ block('checlou_flat_file_cms_data_page_summary') }}
+                </section>
+            {% endif %}
+            {% if not page.isDirectoryPage() and page.type == 'post' %}
+                <section class="cms-page-published-data font-italic">
+                    <time class="dt-published" datetime="{{ page.publishedAt|date("c") }}">
+                        {% if page.headers.type == 'post' or page.headers.published_at is defined %}
+                            {{ 'page.published_at'|trans({date: page.publishedAt|format_date('medium', 'none')}, 'CheclouFlatFileCMSBundle') }}
+                        {% else %}
+                            {{ 'page.created_at'|trans({date: page.publishedAt|format_date('medium', 'none')}, 'CheclouFlatFileCMSBundle') }}
+                        {% endif %}
+                        {% if page.modifiedAt|format_date('medium', 'none') != page.publishedAt|format_date('medium', 'none') %}
+                            . {{ 'page.updated_at'|trans({date: page.modifiedAt|format_date('medium', 'none')}, 'CheclouFlatFileCMSBundle') }}
+                        {% endif %}
+                    </time>
+                    {% if page.parents|length >= 2 and (current_page|default(true) or page.parent.slug != current_page.slug) %}
+                    <span>
+                        - Rubrique : <a href="{{ checlou_flat_file_cms_page_path(page.parents|last) }}">
+                            {{ (page.parents|last).title }}
+                        </a>
+                    </span>
+                    {% endif %}
+                </section>
+            {% endif %}
+            <section class="cms-page-content">
+                {{ block('checlou_flat_file_cms_data_page_content') }}
+            </section>
+        </div>
+    </div>
+</article>
