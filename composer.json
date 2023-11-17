@@ -1,13 +1,14 @@
 {
   "name": "checlou/flat-file-cms-bundle",
   "type": "symfony-bundle",
-  "description": "Provides a tight integration of a CMS based on markdown files",
+  "description": "Bundle to add a CMS based on markdown files to an symfony web app",
   "authors": [
     {
       "name": "Laurent Chedanne",
       "email": "git@chedanne.pro"
     }
   ],
+  "license": "MIT",
   "require": {
     "php": ">=7.2.5",
     "ext-mbstring": "*",
